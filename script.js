@@ -96,7 +96,7 @@ class AddComponent extends Rete.Component {
   editor.use(CommentPlugin.default);
   editor.use(HistoryPlugin);
   editor.use(ConnectionMasteryPlugin.default);
-  editor.use(DockPlugin, {
+  editor.use(DockPlugin.default, {
     container: document.querySelector('.dock'),
     // itemClass: 'item', // default: dock-item 
     plugins: [VueRenderPlugin.default], // render plugins
