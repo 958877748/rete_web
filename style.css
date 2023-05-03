@@ -3,6 +3,7 @@ html, body {
   width: 100%;
   margin: 0;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .node .control input, .node .input-control input {
