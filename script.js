@@ -96,15 +96,6 @@ class AddComponent extends Rete.Component {
   editor.use(CommentPlugin.default);
   editor.use(HistoryPlugin);
   editor.use(ConnectionMasteryPlugin.default);
-  editor.use(DockPlugin.default, {
-    container: document.querySelector('.dock'),
-    itemClass: 'dock-item', // default: dock-item 
-    plugins: [VueRenderPlugin.default], // render plugins
-    // or
-    // plugins: [
-    //     [VueRenderPlugin, renderPluginOptions]
-    // ],
-  });
 
   var engine = new Rete.Engine('demo@0.1.0');
 
