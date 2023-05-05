@@ -149,7 +149,6 @@ class TextControl extends Rete.Control {
   }
 }
 
-
 (async () => {
   var container = document.querySelector('#rete');
   var components = [new NumComponent(), new AddComponent(), new TextNode()];
