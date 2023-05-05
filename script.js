@@ -87,63 +87,6 @@ class AddComponent extends Rete.Component {
   }
 }
 
-
-//解决手机无法右键
-class TouchContextMenuPlugin extends ContextMenuPlugin.default {
-  constructor(options) {
-    super(options);
-    this.timerId = null;
-  }
-
-  bind(node) {
-    node.el.addEventListener('touchstart', (event) => {
-      event.preventDefault();
-      this.timerId = setTimeout(() => {
-        this.show(event, node);
-      }, 500);
-    });
-
-    node.el.addEventListener('touchend', () => {
-      clearTimeout(this.timerId);
-    });
-
-    node.el.addEventListener('touchmove', () => {
-      clearTimeout(this.timerId);
-    });
-  }
-
-  unbind(node) {
-    node.el.removeEventListener('touchstart');
-    node.el.removeEventListener('touchend');
-    node.el.removeEventListener('touchmove');
-  }
-
-  bindArea() {
-    this.editor.view.container.addEventListener('touchstart', (event) => {
-      event.preventDefault();
-      this.timerId = setTimeout(() => {
-        this.show(event);
-      }, 500);
-    });
-
-    this.editor.view.container.addEventListener('touchend', () => {
-      clearTimeout(this.timerId);
-    });
-
-    this.editor.view.container.addEventListener('touchmove', () => {
-      clearTimeout(this.timerId);
-    });
-  }
-
-  unbindArea() {
-    this.editor.view.container.removeEventListener('touchstart');
-    this.editor.view.container.removeEventListener('touchend');
-    this.editor.view.container.removeEventListener('touchmove');
-  }
-}
-
-
-
 (async () => {
   var container = document.querySelector('#rete');
   var components = [new NumComponent(), new AddComponent()];
@@ -151,8 +94,7 @@ class TouchContextMenuPlugin extends ContextMenuPlugin.default {
   var editor = new Rete.NodeEditor('demo@0.1.0', container);
   editor.use(ConnectionPlugin.default);
   editor.use(VueRenderPlugin.default);
-  // editor.use(ContextMenuPlugin.default);
-  editor.use(TouchContextMenuPlugin);
+  editor.use(ContextMenuPlugin.default);
   editor.use(AreaPlugin);
   editor.use(CommentPlugin.default);
   editor.use(HistoryPlugin);
