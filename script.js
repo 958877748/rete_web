@@ -1,4 +1,4 @@
-let ver = 1;
+let ver = 2;
 console.log(`v${ver}`);
 
 var numSocket = new Rete.Socket('Number value');
