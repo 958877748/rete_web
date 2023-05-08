@@ -87,71 +87,9 @@ class AddComponent extends Rete.Component {
   }
 }
 
-class TextNode extends Rete.Component {
-  constructor() {
-    super("Text");
-
-    this.data.component = "Node";
-
-    this.addInput(new Rete.Input("input", "Input", null));
-    this.addOutput(new Rete.Output("output", "Output", null));
-
-    this.editor = null;
-  }
-
-  builder(node) {
-    const textInput = new Rete.Input("text", "Text", null);
-    const textControl = new TextControl(this.editor, "text", node);
-
-    node.addControl(textControl);
-    node.addInput(textInput);
-
-    return node;
-  }
-
-  worker(node, inputs, outputs) {
-    outputs["output"] = node.data.text;
-  }
-}
-
-class TextControl extends Rete.Control {
-  constructor(editor, key, node) {
-    super(key);
-    this.editor = editor;
-    this.key = key;
-    this.node = node;
-    this.render = "editable";
-  }
-
-  setValue(value) {
-    this.editor.trigger("process");
-  }
-
-  onChange(e) {
-    this.setValue(e.target.innerHTML);
-    this.update();
-  }
-
-  update() {
-    this.putData(this.key, this.node.data[this.key]);
-  }
-
-  mounted() {
-    this.update();
-  }
-
-  render() {
-    const el = document.createElement("div");
-    el.contentEditable = true;
-    el.innerHTML = this.node.data[this.key];
-    el.addEventListener("input", this.onChange.bind(this));
-    return el;
-  }
-}
-
 (async () => {
   var container = document.querySelector('#rete');
-  var components = [new NumComponent(), new AddComponent(), new TextNode()];
+  var components = [new NumComponent(), new AddComponent()];
 
   var editor = new Rete.NodeEditor('demo@0.1.0', container);
   editor.use(ConnectionPlugin.default);
