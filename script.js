@@ -87,9 +87,65 @@ class AddComponent extends Rete.Component {
   }
 }
 
+
+var textSocket = new Rete.Socket('Text value');
+
+var VueTextControl = {
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+  template: '<input type="text" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
+  data() {
+    return {
+      value: '',
+    }
+  },
+  methods: {
+    change(e) {
+      this.value = e.target.value;
+      this.update();
+    },
+    update() {
+      if (this.ikey)
+        this.putData(this.ikey, this.value)
+      this.emitter.trigger('process');
+    }
+  },
+  mounted() {
+    this.value = this.getData(this.ikey);
+  }
+}
+
+class TextControl extends Rete.Control {
+
+  constructor(emitter, key, readonly) {
+    super(key);
+    this.component = VueTextControl;
+    this.props = { emitter, ikey: key, readonly };
+  }
+
+  setValue(val) {
+    this.vueContext.value = val;
+  }
+}
+
+class TextComponent extends Rete.Component {
+
+  constructor() {
+    super("Text");
+  }
+
+  builder(node) {
+    return node.addControl(new TextControl(this.editor, 'text')).addOutput(new Rete.Output('text', "Text", textSocket));
+  }
+
+  worker(node, inputs, outputs) {
+    outputs['text'] = node.data.text;
+  }
+}
+
+
 (async () => {
   var container = document.querySelector('#rete');
-  var components = [new NumComponent(), new AddComponent()];
+  var components = [new NumComponent(), new AddComponent(), new TextComponent()];
 
   var editor = new Rete.NodeEditor('demo@0.1.0', container);
   editor.use(ConnectionPlugin.default);
